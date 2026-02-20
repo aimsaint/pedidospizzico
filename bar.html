@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista Ordini - Cassa</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== MODALE MODIFICA ===== */
+    #modalOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    #modalBox {
+      background: white;
+      margin: 20px auto;
+      padding: 25px;
+      border-radius: 16px;
+      max-width: 580px;
+      position: relative;
+    }
+    #modalBox h2 {
+      margin-top: 0;
+    }
+    .modal-close {
+      position: absolute;
+      top: 15px; right: 15px;
+      font-size: 24px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: auto;
+      padding: 0;
+      margin: 0;
+      color: #333;
+    }
+    #btnConfermaModifica {
+      background: #27ae60;
+      margin-top: 20px;
+    }
+    .ordine-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .btn-modifica {
+      background: #e67e22;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      width: auto;
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+
+<a href="index.html" style="float:right;font-size:22px;">⬅ Torna</a>
+<h1>Ordini Ricevuti</h1>
+<div id="listaOrdini"></div>
+<audio id="ding" src="https://actions.google.com/sounds/v1/alarms/ding.ogg"></audio>
+
+<!-- ===== MODALE MODIFICA ORDINE ===== -->
+<div id="modalOverlay">
+  <div id="modalBox">
+    <button class="modal-close" onclick="chiudiModale()">✕</button>
+    <h2 id="modalTitolo">Modifica Ordine</h2>
+
+    <!-- ENTRANTES -->
+    <div class="categoria">
+      <div class="titolo" onclick="mToggle('m_entrantes')">Entrantes ▼</div>
+      <div class="contenuto" id="m_entrantes">
+        <div class="row"><span>Albondigas</span><div class="qtyBox"><button onclick="mMeno('m_albondigas')">−</button><span id="m_albondigas">0</span><button onclick="mPiu('m_albondigas')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_albondigas')">Nota</button><textarea id="mn_albondigas" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Barchetta</span><div class="qtyBox"><button onclick="mMeno('m_barchetta')">−</button><span id="m_barchetta">0</span><button onclick="mPiu('m_barchetta')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_barchetta')">Nota</button><textarea id="mn_barchetta" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Burrata</span><div class="qtyBox"><button onclick="mMeno('m_burrata')">−</button><span id="m_burrata">0</span><button onclick="mPiu('m_burrata')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_burrata')">Nota</button><textarea id="mn_burrata" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Carpaccio</span><div class="qtyBox"><button onclick="mMeno('m_carpaccio')">−</button><span id="m_carpaccio">0</span><button onclick="mPiu('m_carpaccio')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_carpaccio')">Nota</button><textarea id="mn_carpaccio" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Lasaña</span><div class="qtyBox"><button onclick="mMeno('m_lasana')">−</button><span id="m_lasana">0</span><button onclick="mPiu('m_lasana')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_lasana')">Nota</button><textarea id="mn_lasana" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Provolone</span><div class="qtyBox"><button onclick="mMeno('m_provolone')">−</button><span id="m_provolone">0</span><button onclick="mPiu('m_provolone')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_provolone')">Nota</button><textarea id="mn_provolone" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Olive Verdi</span><div class="qtyBox"><button onclick="mMeno('m_oliveverdi')">−</button><span id="m_oliveverdi">0</span><button onclick="mPiu('m_oliveverdi')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_oliveverdi')">Nota</button><textarea id="mn_oliveverdi" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Tomino</span><div class="qtyBox"><button onclick="mMeno('m_tomino')">−</button><span id="m_tomino">0</span><button onclick="mPiu('m_tomino')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_tomino')">Nota</button><textarea id="mn_tomino" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Tortilla</span><div class="qtyBox"><button onclick="mMeno('m_tortilla')">−</button><span id="m_tortilla">0</span><button onclick="mPiu('m_tortilla')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_tortilla')">Nota</button><textarea id="mn_tortilla" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+      </div>
+    </div>
+
+    <!-- PIZZA -->
+    <div class="categoria">
+      <div class="titolo" onclick="mToggle('m_pizza')">Pizza ▼</div>
+      <div class="contenuto" id="m_pizza">
+        <div class="row"><span>Capricciosa</span><div class="qtyBox"><button onclick="mMeno('m_capricciosa')">−</button><span id="m_capricciosa">0</span><button onclick="mPiu('m_capricciosa')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_capricciosa')">Nota</button><textarea id="mn_capricciosa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cuatro Quesos</span><div class="qtyBox"><button onclick="mMeno('m_cuatroquesos')">−</button><span id="m_cuatroquesos">0</span><button onclick="mPiu('m_cuatroquesos')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cuatroquesos')">Nota</button><textarea id="mn_cuatroquesos" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Diavola</span><div class="qtyBox"><button onclick="mMeno('m_diavola')">−</button><span id="m_diavola">0</span><button onclick="mPiu('m_diavola')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_diavola')">Nota</button><textarea id="mn_diavola" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Marinara</span><div class="qtyBox"><button onclick="mMeno('m_marinara')">−</button><span id="m_marinara">0</span><button onclick="mPiu('m_marinara')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_marinara')">Nota</button><textarea id="mn_marinara" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Margherita</span><div class="qtyBox"><button onclick="mMeno('m_margherita')">−</button><span id="m_margherita">0</span><button onclick="mPiu('m_margherita')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_margherita')">Nota</button><textarea id="mn_margherita" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Prosciutto e Funghi</span><div class="qtyBox"><button onclick="mMeno('m_prosciuttofunghi')">−</button><span id="m_prosciuttofunghi">0</span><button onclick="mPiu('m_prosciuttofunghi')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_prosciuttofunghi')">Nota</button><textarea id="mn_prosciuttofunghi" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Pinsa Speciale (Pizza)</span><div class="qtyBox"><button onclick="mMeno('m_pinsaspeciale_pizza')">−</button><span id="m_pinsaspeciale_pizza">0</span><button onclick="mPiu('m_pinsaspeciale_pizza')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_pinsaspeciale_pizza')">Nota</button><textarea id="mn_pinsaspeciale_pizza" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+      </div>
+    </div>
+
+    <!-- PINSA -->
+    <div class="categoria">
+      <div class="titolo" onclick="mToggle('m_pinsa')">Pinsa ▼</div>
+      <div class="contenuto" id="m_pinsa">
+        <div class="row"><span>Anchoas</span><div class="qtyBox"><button onclick="mMeno('m_anchoas')">−</button><span id="m_anchoas">0</span><button onclick="mPiu('m_anchoas')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_anchoas')">Nota</button><textarea id="mn_anchoas" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Bacalao</span><div class="qtyBox"><button onclick="mMeno('m_bacalao')">−</button><span id="m_bacalao">0</span><button onclick="mPiu('m_bacalao')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_bacalao')">Nota</button><textarea id="mn_bacalao" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cabra</span><div class="qtyBox"><button onclick="mMeno('m_cabra')">−</button><span id="m_cabra">0</span><button onclick="mPiu('m_cabra')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cabra')">Nota</button><textarea id="mn_cabra" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Calabaza</span><div class="qtyBox"><button onclick="mMeno('m_calabaza')">−</button><span id="m_calabaza">0</span><button onclick="mPiu('m_calabaza')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_calabaza')">Nota</button><textarea id="mn_calabaza" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Ceps</span><div class="qtyBox"><button onclick="mMeno('m_ceps')">−</button><span id="m_ceps">0</span><button onclick="mPiu('m_ceps')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_ceps')">Nota</button><textarea id="mn_ceps" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Mortadella</span><div class="qtyBox"><button onclick="mMeno('m_mortadella')">−</button><span id="m_mortadella">0</span><button onclick="mPiu('m_mortadella')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_mortadella')">Nota</button><textarea id="mn_mortadella" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Pollo</span><div class="qtyBox"><button onclick="mMeno('m_pollo')">−</button><span id="m_pollo">0</span><button onclick="mPiu('m_pollo')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_pollo')">Nota</button><textarea id="mn_pollo" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Paletilla</span><div class="qtyBox"><button onclick="mMeno('m_paletilla')">−</button><span id="m_paletilla">0</span><button onclick="mPiu('m_paletilla')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_paletilla')">Nota</button><textarea id="mn_paletilla" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Pinsa Speciale</span><div class="qtyBox"><button onclick="mMeno('m_pinsaspeciale')">−</button><span id="m_pinsaspeciale">0</span><button onclick="mPiu('m_pinsaspeciale')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_pinsaspeciale')">Nota</button><textarea id="mn_pinsaspeciale" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Setas</span><div class="qtyBox"><button onclick="mMeno('m_setas')">−</button><span id="m_setas">0</span><button onclick="mPiu('m_setas')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_setas')">Nota</button><textarea id="mn_setas" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Tetilla</span><div class="qtyBox"><button onclick="mMeno('m_tetilla')">−</button><span id="m_tetilla">0</span><button onclick="mPiu('m_tetilla')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_tetilla')">Nota</button><textarea id="mn_tetilla" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Trufa</span><div class="qtyBox"><button onclick="mMeno('m_trufa')">−</button><span id="m_trufa">0</span><button onclick="mPiu('m_trufa')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_trufa')">Nota</button><textarea id="mn_trufa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Vegetariana</span><div class="qtyBox"><button onclick="mMeno('m_vegetariana')">−</button><span id="m_vegetariana">0</span><button onclick="mPiu('m_vegetariana')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_vegetariana')">Nota</button><textarea id="mn_vegetariana" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+      </div>
+    </div>
+
+    <!-- POSTRES -->
+    <div class="categoria">
+      <div class="titolo" onclick="mToggle('m_postre')">Postres ▼</div>
+      <div class="contenuto" id="m_postre">
+        <div class="row"><span>Panna Cotta</span><div class="qtyBox"><button onclick="mMeno('m_pannacotta')">−</button><span id="m_pannacotta">0</span><button onclick="mPiu('m_pannacotta')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_pannacotta')">Nota</button><textarea id="mn_pannacotta" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Pinsa Nutella</span><div class="qtyBox"><button onclick="mMeno('m_pinsanutella')">−</button><span id="m_pinsanutella">0</span><button onclick="mPiu('m_pinsanutella')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_pinsanutella')">Nota</button><textarea id="mn_pinsanutella" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Pinsa Siciliana</span><div class="qtyBox"><button onclick="mMeno('m_pinsasiciliana')">−</button><span id="m_pinsasiciliana">0</span><button onclick="mPiu('m_pinsasiciliana')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_pinsasiciliana')">Nota</button><textarea id="mn_pinsasiciliana" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Tarta de Queso</span><div class="qtyBox"><button onclick="mMeno('m_tartadequeso')">−</button><span id="m_tartadequeso">0</span><button onclick="mPiu('m_tartadequeso')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_tartadequeso')">Nota</button><textarea id="mn_tartadequeso" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Tiramisù</span><div class="qtyBox"><button onclick="mMeno('m_tiramisu')">−</button><span id="m_tiramisu">0</span><button onclick="mPiu('m_tiramisu')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_tiramisu')">Nota</button><textarea id="mn_tiramisu" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+      </div>
+    </div>
+
+    <!-- BEBIDAS -->
+    <div class="categoria">
+      <div class="titolo" onclick="mToggle('m_bebidas')">Bebidas ▼</div>
+      <div class="contenuto" id="m_bebidas">
+        <div class="row"><span>Agua con gas</span><div class="qtyBox"><button onclick="mMeno('m_aguacongas')">−</button><span id="m_aguacongas">0</span><button onclick="mPiu('m_aguacongas')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_aguacongas')">Nota</button><textarea id="mn_aguacongas" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Agua grande</span><div class="qtyBox"><button onclick="mMeno('m_aguagrande')">−</button><span id="m_aguagrande">0</span><button onclick="mPiu('m_aguagrande')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_aguagrande')">Nota</button><textarea id="mn_aguagrande" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Agua pequeña</span><div class="qtyBox"><button onclick="mMeno('m_aguapeq')">−</button><span id="m_aguapeq">0</span><button onclick="mPiu('m_aguapeq')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_aguapeq')">Nota</button><textarea id="mn_aguapeq" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Alhambra Roja</span><div class="qtyBox"><button onclick="mMeno('m_alhambraroja')">−</button><span id="m_alhambraroja">0</span><button onclick="mPiu('m_alhambraroja')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_alhambraroja')">Nota</button><textarea id="mn_alhambraroja" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Aperol Spritz</span><div class="qtyBox"><button onclick="mMeno('m_aperolspritz')">−</button><span id="m_aperolspritz">0</span><button onclick="mPiu('m_aperolspritz')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_aperolspritz')">Nota</button><textarea id="mn_aperolspritz" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Aquarius</span><div class="qtyBox"><button onclick="mMeno('m_aquarius')">−</button><span id="m_aquarius">0</span><button onclick="mPiu('m_aquarius')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_aquarius')">Nota</button><textarea id="mn_aquarius" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Campari Spritz</span><div class="qtyBox"><button onclick="mMeno('m_camparispritz')">−</button><span id="m_camparispritz">0</span><button onclick="mPiu('m_camparispritz')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_camparispritz')">Nota</button><textarea id="mn_camparispritz" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Campari</span><div class="qtyBox"><button onclick="mMeno('m_campari')">−</button><span id="m_campari">0</span><button onclick="mPiu('m_campari')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_campari')">Nota</button><textarea id="mn_campari" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cafè Solo</span><div class="qtyBox"><button onclick="mMeno('m_cafesolo')">−</button><span id="m_cafesolo">0</span><button onclick="mPiu('m_cafesolo')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cafesolo')">Nota</button><textarea id="mn_cafesolo" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cafè Solo Descafeinado</span><div class="qtyBox"><button onclick="mMeno('m_cafesolodec')">−</button><span id="m_cafesolodec">0</span><button onclick="mPiu('m_cafesolodec')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cafesolodec')">Nota</button><textarea id="mn_cafesolodec" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cafè con Leche</span><div class="qtyBox"><button onclick="mMeno('m_cafeleche')">−</button><span id="m_cafeleche">0</span><button onclick="mPiu('m_cafeleche')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cafeleche')">Nota</button><textarea id="mn_cafeleche" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cafè con Leche Des.</span><div class="qtyBox"><button onclick="mMeno('m_cafelechedec')">−</button><span id="m_cafelechedec">0</span><button onclick="mPiu('m_cafelechedec')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cafelechedec')">Nota</button><textarea id="mn_cafelechedec" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cortado</span><div class="qtyBox"><button onclick="mMeno('m_cortado')">−</button><span id="m_cortado">0</span><button onclick="mPiu('m_cortado')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cortado')">Nota</button><textarea id="mn_cortado" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cortado Descafeinado</span><div class="qtyBox"><button onclick="mMeno('m_cortadodec')">−</button><span id="m_cortadodec">0</span><button onclick="mPiu('m_cortadodec')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cortadodec')">Nota</button><textarea id="mn_cortadodec" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Carajillo</span><div class="qtyBox"><button onclick="mMeno('m_carajillo')">−</button><span id="m_carajillo">0</span><button onclick="mPiu('m_carajillo')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_carajillo')">Nota</button><textarea id="mn_carajillo" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cava Botella</span><div class="qtyBox"><button onclick="mMeno('m_cavabotella')">−</button><span id="m_cavabotella">0</span><button onclick="mPiu('m_cavabotella')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cavabotella')">Nota</button><textarea id="mn_cavabotella" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cava Copa</span><div class="qtyBox"><button onclick="mMeno('m_cavacopa')">−</button><span id="m_cavacopa">0</span><button onclick="mPiu('m_cavacopa')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cavacopa')">Nota</button><textarea id="mn_cavacopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cerasauolo</span><div class="qtyBox"><button onclick="mMeno('m_cerasauolo')">−</button><span id="m_cerasauolo">0</span><button onclick="mPiu('m_cerasauolo')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cerasauolo')">Nota</button><textarea id="mn_cerasauolo" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Clara</span><div class="qtyBox"><button onclick="mMeno('m_clara')">−</button><span id="m_clara">0</span><button onclick="mPiu('m_clara')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_clara')">Nota</button><textarea id="mn_clara" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Caña Copa</span><div class="qtyBox"><button onclick="mMeno('m_canacopa')">−</button><span id="m_canacopa">0</span><button onclick="mPiu('m_canacopa')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_canacopa')">Nota</button><textarea id="mn_canacopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Caña Pequeña</span><div class="qtyBox"><button onclick="mMeno('m_canapeq')">−</button><span id="m_canapeq">0</span><button onclick="mPiu('m_canapeq')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_canapeq')">Nota</button><textarea id="mn_canapeq" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Mediana 1925</span><div class="qtyBox"><button onclick="mMeno('m_mediana1925')">−</button><span id="m_mediana1925">0</span><button onclick="mPiu('m_mediana1925')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_mediana1925')">Nota</button><textarea id="mn_mediana1925" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Mediana TOST. 0 Alc.</span><div class="qtyBox"><button onclick="mMeno('m_medianatost')">−</button><span id="m_medianatost">0</span><button onclick="mPiu('m_medianatost')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_medianatost')">Nota</button><textarea id="mn_medianatost" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Mediana 0 Alc.</span><div class="qtyBox"><button onclick="mMeno('m_mediana0')">−</button><span id="m_mediana0">0</span><button onclick="mPiu('m_mediana0')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_mediana0')">Nota</button><textarea id="mn_mediana0" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cocacola</span><div class="qtyBox"><button onclick="mMeno('m_cocacola')">−</button><span id="m_cocacola">0</span><button onclick="mPiu('m_cocacola')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cocacola')">Nota</button><textarea id="mn_cocacola" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Cocacola 0</span><div class="qtyBox"><button onclick="mMeno('m_cocacola0')">−</button><span id="m_cocacola0">0</span><button onclick="mPiu('m_cocacola0')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_cocacola0')">Nota</button><textarea id="mn_cocacola0" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Fanta</span><div class="qtyBox"><button onclick="mMeno('m_fanta')">−</button><span id="m_fanta">0</span><button onclick="mPiu('m_fanta')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_fanta')">Nota</button><textarea id="mn_fanta" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Garnatxa Blanca Copa</span><div class="qtyBox"><button onclick="mMeno('m_garnatxablancacopa')">−</button><span id="m_garnatxablancacopa">0</span><button onclick="mPiu('m_garnatxablancacopa')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_garnatxablancacopa')">Nota</button><textarea id="mn_garnatxablancacopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Garnatxa Blanca Bott.</span><div class="qtyBox"><button onclick="mMeno('m_garnatxablancabott')">−</button><span id="m_garnatxablancabott">0</span><button onclick="mPiu('m_garnatxablancabott')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_garnatxablancabott')">Nota</button><textarea id="mn_garnatxablancabott" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Garnatxa Tinta Copa</span><div class="qtyBox"><button onclick="mMeno('m_garnatxatintacopa')">−</button><span id="m_garnatxatintacopa">0</span><button onclick="mPiu('m_garnatxatintacopa')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_garnatxatintacopa')">Nota</button><textarea id="mn_garnatxatintacopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Garnatxa Tinta Bott.</span><div class="qtyBox"><button onclick="mMeno('m_garnatxatintabott')">−</button><span id="m_garnatxatintabott">0</span><button onclick="mPiu('m_garnatxatintabott')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_garnatxatintabott')">Nota</button><textarea id="mn_garnatxatintabott" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Gin Hendrix</span><div class="qtyBox"><button onclick="mMeno('m_ginhendrix')">−</button><span id="m_ginhendrix">0</span><button onclick="mPiu('m_ginhendrix')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_ginhendrix')">Nota</button><textarea id="mn_ginhendrix" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Gin Mare</span><div class="qtyBox"><button onclick="mMeno('m_ginmare')">−</button><span id="m_ginmare">0</span><button onclick="mPiu('m_ginmare')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_ginmare')">Nota</button><textarea id="mn_ginmare" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Lambrusco Rosè Copa</span><div class="qtyBox"><button onclick="mMeno('m_lambruscorosecopa')">−</button><span id="m_lambruscorosecopa">0</span><button onclick="mPiu('m_lambruscorosecopa')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_lambruscorosecopa')">Nota</button><textarea id="mn_lambruscorosecopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Lambrusco Rosè Bott.</span><div class="qtyBox"><button onclick="mMeno('m_lambruscorosebott')">−</button><span id="m_lambruscorosebott">0</span><button onclick="mPiu('m_lambruscorosebott')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_lambruscorosebott')">Nota</button><textarea id="mn_lambruscorosebott" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Lambrusco Otello</span><div class="qtyBox"><button onclick="mMeno('m_lambruscoOtello')">−</button><span id="m_lambruscoOtello">0</span><button onclick="mPiu('m_lambruscoOtello')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_lambruscoOtello')">Nota</button><textarea id="mn_lambruscoOtello" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Magnum Trebbiano</span><div class="qtyBox"><button onclick="mMeno('m_magnumtrebbiano')">−</button><span id="m_magnumtrebbiano">0</span><button onclick="mPiu('m_magnumtrebbiano')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_magnumtrebbiano')">Nota</button><textarea id="mn_magnumtrebbiano" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Negroni</span><div class="qtyBox"><button onclick="mMeno('m_negroni')">−</button><span id="m_negroni">0</span><button onclick="mPiu('m_negroni')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_negroni')">Nota</button><textarea id="mn_negroni" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Nero D'Avola Copa</span><div class="qtyBox"><button onclick="mMeno('m_nerodavolacopa')">−</button><span id="m_nerodavolacopa">0</span><button onclick="mPiu('m_nerodavolacopa')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_nerodavolacopa')">Nota</button><textarea id="mn_nerodavolacopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Nero D'Avola Bott.</span><div class="qtyBox"><button onclick="mMeno('m_nerodavolabott')">−</button><span id="m_nerodavolabott">0</span><button onclick="mPiu('m_nerodavolabott')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_nerodavolabott')">Nota</button><textarea id="mn_nerodavolabott" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Nestea</span><div class="qtyBox"><button onclick="mMeno('m_nestea')">−</button><span id="m_nestea">0</span><button onclick="mPiu('m_nestea')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_nestea')">Nota</button><textarea id="mn_nestea" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Pinot Grigio Copa</span><div class="qtyBox"><button onclick="mMeno('m_pinotgrigiocopa')">−</button><span id="m_pinotgrigiocopa">0</span><button onclick="mPiu('m_pinotgrigiocopa')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_pinotgrigiocopa')">Nota</button><textarea id="mn_pinotgrigiocopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Pinot Grigio Bott.</span><div class="qtyBox"><button onclick="mMeno('m_pinotgrigiobott')">−</button><span id="m_pinotgrigiobott">0</span><button onclick="mPiu('m_pinotgrigiobott')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_pinotgrigiobott')">Nota</button><textarea id="mn_pinotgrigiobott" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+        <div class="row"><span>Trebbiano Copa</span><div class="qtyBox"><button onclick="mMeno('m_trebbianocopa')">−</button><span id="m_trebbianocopa">0</span><button onclick="mPiu('m_trebbianocopa')">+</button></div></div>
+        <button class="notaBtn" onclick="mToggleNota('mn_trebbianocopa')">Nota</button><textarea id="mn_trebbianocopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+      </div>
+    </div>
+
+    <label style="margin-top:16px;display:block;"><strong>Uscita Piatti</strong></label>
+    <select id="m_uscitaPiatti">
+      <option value="">Nessuna indicazione</option>
+      <option value="Entrantes y Pizza Juntos">Entrantes y Pizza Juntos</option>
+      <option value="Primero Entrante y Despues Pizza">Primero Entrante y Despues Pizza</option>
+    </select>
+
+    <button id="btnConfermaModifica" onclick="confermaModifica()">✅ Conferma Modifica</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDUulaak7o02S9DedxWjBsi0rXN7wg1_-c",
+  authDomain: "comanderistorante.firebaseapp.com",
+  databaseURL: "https://comanderistorante-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "comanderistorante",
+  storageBucket: "comanderistorante.firebasestorage.app",
+  messagingSenderId: "231947553618",
+  appId: "1:231947553618:web:8fbb14e28bc6d36cd5488b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const lista = document.getElementById("listaOrdini");
+let primoCaricamento = true;
+let ordineInModifica = null; // id ordine attualmente in modifica
+
+// Mappa prodotti modale: [nomeVisibile, idHTML_modale, reparto]
+const PRODOTTI_M = [
+  ["Albondigas","albondigas","cucina"],["Barchetta","barchetta","cucina"],
+  ["Burrata","burrata","cucina"],["Carpaccio","carpaccio","cucina"],
+  ["Lasaña","lasana","cucina"],["Provolone","provolone","cucina"],
+  ["Olive Verdi","oliveverdi","cucina"],["Tomino","tomino","cucina"],
+  ["Tortilla","tortilla","cucina"],["Panna Cotta","pannacotta","cucina"],
+  ["Tiramisù","tiramisu","cucina"],["Tarta de Queso","tartadequeso","cucina"],
+  ["Capricciosa","capricciosa","pizzeria"],["Cuatro Quesos","cuatroquesos","pizzeria"],
+  ["Diavola","diavola","pizzeria"],["Marinara","marinara","pizzeria"],
+  ["Margherita","margherita","pizzeria"],["Prosciutto e Funghi","prosciuttofunghi","pizzeria"],
+  ["Pinsa Speciale (Pizza)","pinsaspeciale_pizza","pizzeria"],
+  ["Anchoas","anchoas","pizzeria"],["Bacalao","bacalao","pizzeria"],
+  ["Cabra","cabra","pizzeria"],["Calabaza","calabaza","pizzeria"],
+  ["Ceps","ceps","pizzeria"],["Mortadella","mortadella","pizzeria"],
+  ["Pollo","pollo","pizzeria"],["Paletilla","paletilla","pizzeria"],
+  ["Pinsa Speciale","pinsaspeciale","pizzeria"],["Setas","setas","pizzeria"],
+  ["Tetilla","tetilla","pizzeria"],["Trufa","trufa","pizzeria"],
+  ["Vegetariana","vegetariana","pizzeria"],
+  ["Pinsa Nutella","pinsanutella","pizzeria"],["Pinsa Siciliana","pinsasiciliana","pizzeria"],
+  ["Agua con gas","aguacongas","bar"],["Agua grande","aguagrande","bar"],
+  ["Agua pequeña","aguapeq","bar"],["Alhambra Roja","alhambraroja","bar"],
+  ["Aperol Spritz","aperolspritz","bar"],["Aquarius","aquarius","bar"],
+  ["Campari Spritz","camparispritz","bar"],["Campari","campari","bar"],
+  ["Cafè Solo","cafesolo","bar"],["Cafè Solo Descafeinado","cafesolodec","bar"],
+  ["Cafè con Leche","cafeleche","bar"],["Cafè con Leche Des.","cafelechedec","bar"],
+  ["Cortado","cortado","bar"],["Cortado Descafeinado","cortadodec","bar"],
+  ["Carajillo","carajillo","bar"],["Cava Botella","cavabotella","bar"],
+  ["Cava Copa","cavacopa","bar"],["Cerasauolo","cerasauolo","bar"],
+  ["Clara","clara","bar"],["Caña Copa","canacopa","bar"],
+  ["Caña Pequeña","canapeq","bar"],["Mediana 1925","mediana1925","bar"],
+  ["Mediana TOST. 0 Alc.","medianatost","bar"],["Mediana 0 Alc.","mediana0","bar"],
+  ["Cocacola","cocacola","bar"],["Cocacola 0","cocacola0","bar"],
+  ["Fanta","fanta","bar"],["Garnatxa Blanca Copa","garnatxablancacopa","bar"],
+  ["Garnatxa Blanca Bott.","garnatxablancabott","bar"],
+  ["Garnatxa Tinta Copa","garnatxatintacopa","bar"],
+  ["Garnatxa Tinta Bott.","garnatxatintabott","bar"],
+  ["Gin Hendrix","ginhendrix","bar"],["Gin Mare","ginmare","bar"],
+  ["Lambrusco Rosè Copa","lambruscorosecopa","bar"],
+  ["Lambrusco Rosè Bott.","lambruscorosebott","bar"],
+  ["Lambrusco Otello","lambruscoOtello","bar"],
+  ["Magnum Trebbiano","magnumtrebbiano","bar"],["Negroni","negroni","bar"],
+  ["Nero D'Avola Copa","nerodavolacopa","bar"],
+  ["Nero D'Avola Bott.","nerodavolabott","bar"],["Nestea","nestea","bar"],
+  ["Pinot Grigio Copa","pinotgrigiocopa","bar"],
+  ["Pinot Grigio Bott.","pinotgrigiobott","bar"],
+  ["Trebbiano Copa","trebbianocopa","bar"],
+];
+
+// ── RENDER LISTA ORDINI ──────────────────────────────────────────────
+onValue(ref(db, "ordini"), snapshot => {
+  lista.innerHTML = "";
+
+  snapshot.forEach(child => {
+    const id = child.key;
+    const ordine = child.val();
+    if(ordine.completato) return;
+
+    if(!primoCaricamento){
+      document.getElementById("ding").play();
+    }
+
+    const div = document.createElement("div");
+    div.className = "ordine";
+    div.innerHTML = `
+      <div class="ordine-header">
+        <div>
+          <strong>Tavolo ${ordine.tavolo}</strong> - ${ordine.ora}<br>
+          <em>${ordine.uscita || ""}</em>
+        </div>
+        <button class="btn-modifica" onclick="apriModale('${id}')">✏️ Modifica</button>
+      </div>
+      <br>
+      ${ordine.items.map(i => `
+        ${i.qty} x ${i.nome}
+        ${i.nota ? `<br><small>→ ${i.nota}</small>` : ""}
+      `).join("<br>")}
+    `;
+    lista.prepend(div);
+  });
+
+  primoCaricamento = false;
+});
+
+// ── MODALE ──────────────────────────────────────────────────────────
+window.apriModale = function(id) {
+  ordineInModifica = id;
+
+  // Reset tutti i campi del modale
+  document.querySelectorAll("#modalBox .qtyBox span").forEach(el => el.innerText = 0);
+  document.querySelectorAll("#modalBox .notaBox").forEach(el => { el.value = ""; el.style.display = "none"; });
+
+  // Leggi ordine corrente da Firebase e precompila
+  onValue(ref(db, "ordini/" + id), snap => {
+    const o = snap.val();
+    document.getElementById("modalTitolo").innerText = `Modifica Ordine - Tavolo ${o.tavolo}`;
+
+    const sel = document.getElementById("m_uscitaPiatti");
+    sel.value = o.uscita || "";
+
+    // Precompila le quantità e note dal valore salvato
+    o.items.forEach(item => {
+      const match = PRODOTTI_M.find(([nome]) => nome === item.nome);
+      if(!match) return;
+      const idEl = "m_" + match[1];
+      const idNota = "mn_" + match[1];
+      const spanEl = document.getElementById(idEl);
+      const notaEl = document.getElementById(idNota);
+      if(spanEl) spanEl.innerText = item.qty;
+      if(notaEl && item.nota) {
+        notaEl.value = item.nota;
+        notaEl.style.display = "block";
+      }
+    });
+
+    document.getElementById("modalOverlay").style.display = "block";
+  }, { onlyOnce: true });
+};
+
+window.chiudiModale = function() {
+  document.getElementById("modalOverlay").style.display = "none";
+  ordineInModifica = null;
+};
+
+window.confermaModifica = function() {
+  if(!ordineInModifica) return;
+
+  const nuoviItems = [];
+  PRODOTTI_M.forEach(([nome, id, reparto]) => {
+    const spanEl = document.getElementById("m_" + id);
+    const notaEl = document.getElementById("mn_" + id);
+    if(!spanEl) return;
+    const qty = parseInt(spanEl.innerText);
+    const nota = notaEl ? notaEl.value.trim() : "";
+    if(qty > 0) nuoviItems.push({ nome, qty, reparto, nota });
+  });
+
+  if(nuoviItems.length === 0){
+    alert("Inserisci almeno un prodotto!");
+    return;
+  }
+
+  const uscita = document.getElementById("m_uscitaPiatti").value;
+
+  // Ricalcola quali reparti sono presenti e resetta i flag completamento
+  const hasCucina   = nuoviItems.some(i => i.reparto === "cucina");
+  const hasPizzeria = nuoviItems.some(i => i.reparto === "pizzeria");
+  const hasBar      = nuoviItems.some(i => i.reparto === "bar");
+
+  update(ref(db, "ordini/" + ordineInModifica), {
+    items: nuoviItems,
+    uscita: uscita,
+    // Reset flag completamento solo per i reparti ora presenti
+    cucinaCompleto:   !hasCucina,
+    pizzeriaCompleto: !hasPizzeria,
+    barCompleto:      !hasBar,
+    completato:       false,
+    oraCompletato:    ""
+  }).then(() => {
+    chiudiModale();
+  });
+};
+
+// ── HELPERS MODALE ───────────────────────────────────────────────────
+window.mToggle = function(id){
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === "block" ? "none" : "block";
+};
+window.mToggleNota = function(id){
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === "block" ? "none" : "block";
+};
+window.mPiu = function(id){
+  const el = document.getElementById(id);
+  el.innerText = parseInt(el.innerText) + 1;
+};
+window.mMeno = function(id){
+  const el = document.getElementById(id);
+  let v = parseInt(el.innerText);
+  if(v > 0) el.innerText = v - 1;
+};
+
+</script>
+</body>
+</html>

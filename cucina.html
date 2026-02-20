@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Ordini Cucina</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .tag-cucina   { background:#e8f5e9; color:#2e7d32; border-radius:6px; padding:2px 7px; font-size:13px; font-weight:600; }
+    .tag-pizzeria { background:#fff3e0; color:#e65100; border-radius:6px; padding:2px 7px; font-size:13px; font-weight:600; }
+  </style>
+</head>
+<body>
+<a href="index.html" style="float:right;font-size:22px;">⬅ Torna</a>
+<h1>Ordini da Preparare</h1>
+<div id="listaOrdini"></div>
+<audio id="ding" src="https://actions.google.com/sounds/v1/alarms/ding.ogg"></audio>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDUulaak7o02S9DedxWjBsi0rXN7wg1_-c",
+  authDomain: "comanderistorante.firebaseapp.com",
+  databaseURL: "https://comanderistorante-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "comanderistorante",
+  storageBucket: "comanderistorante.firebasestorage.app",
+  messagingSenderId: "231947553618",
+  appId: "1:231947553618:web:8fbb14e28bc6d36cd5488b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const lista = document.getElementById("listaOrdini");
+
+onValue(ref(db,"ordini"), snapshot => {
+  lista.innerHTML = "";
+
+  snapshot.forEach(child => {
+    const id = child.key;
+    const ordine = child.val();
+
+    if(ordine.completato) return;
+    if(ordine.cucinaCompleto) return;
+
+    // Cucina vede tutto tranne bevande (bar), con tag reparto
+    const cibo = ordine.items.filter(item => item.reparto !== "bar");
+    if(cibo.length === 0) return;
+
+    const div = document.createElement("div");
+    div.className = "ordine";
+
+    const ciboHTML = cibo.map(item => {
+      const tag = item.reparto === "pizzeria"
+        ? `<span class="tag-pizzeria">PIZZERIA</span>`
+        : `<span class="tag-cucina">CUCINA</span>`;
+      return `
+        ${tag} ${item.qty} x ${item.nome}
+        ${item.nota ? `<br><small style="margin-left:60px;">→ ${item.nota}</small>` : ""}
+      `;
+    }).join("<br>");
+
+    div.innerHTML = `
+      <strong>Tavolo ${ordine.tavolo}</strong> - ${ordine.ora}<br>
+      <em>${ordine.uscita || ""}</em><br><br>
+      ${ciboHTML}
+      <br><br>
+      <button onclick="completaCucina('${id}', this)">COMPLETATO CUCINA</button>
+    `;
+
+    lista.prepend(div);
+  });
+});
+
+window.completaCucina = function(id, btn){
+  update(ref(db,"ordini/"+id),{ cucinaCompleto: true })
+    .then(() => controllaCompletamento(id));
+  btn.parentElement.remove();
+};
+
+function controllaCompletamento(id){
+  onValue(ref(db,"ordini/"+id), snapshot => {
+    const o = snapshot.val();
+    const hasCucina   = o.items.some(i => i.reparto === "cucina");
+    const hasPizzeria = o.items.some(i => i.reparto === "pizzeria");
+    const hasBar      = o.items.some(i => i.reparto === "bar");
+    const cucinaOk    = !hasCucina   || o.cucinaCompleto;
+    const pizzeriaOk  = !hasPizzeria || o.pizzeriaCompleto;
+    const barOk       = !hasBar      || o.barCompleto;
+    if(cucinaOk && pizzeriaOk && barOk){
+      update(ref(db,"ordini/"+id),{ completato: true, oraCompletato: new Date().toLocaleTimeString() });
+    }
+  }, { onlyOnce: true });
+}
+</script>
+</body>
+</html>

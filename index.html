@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Nuevo Pedido</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar">
+  <ul>
+    <li><a href="index.html">Nuevo Pedido</a></li>
+    <li><a href="bar.html">Lista Pedidos</a></li>
+    <li><a href="ordinibar.html">Pedidos Bar</a></li>
+    <li><a href="cucina.html">Pedidos Cocina</a></li>
+    <li><a href="pizzeria.html">Pedidos Pizzeria</a></li>
+    <li><a href="ordinicompletati.html">Pedidos Completados</a></li>
+  </ul>
+</nav>
+
+<div class="card">
+
+  <label>Tavolo</label>
+  <select id="numeroTavolo"></select>
+
+  <label>Divisione tavolo (opzionale)</label>
+  <select id="divisione">
+    <option value="">Nessuna</option>
+    <option value="A">A</option>
+    <option value="B">B</option>
+  </select>
+
+  <!-- ===== ENTRANTES ===== -->
+  <div class="categoria">
+    <div class="titolo" onclick="toggleMenu('entrantes')">Entrantes ▼</div>
+    <div class="contenuto" id="entrantes">
+
+      <div class="row"><span>Albondigas</span><div class="qtyBox"><button onclick="meno('albondigas')">−</button><span id="albondigas">0</span><button onclick="piu('albondigas')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_albondigas')">Nota</button>
+      <textarea id="nota_albondigas" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Barchetta</span><div class="qtyBox"><button onclick="meno('barchetta')">−</button><span id="barchetta">0</span><button onclick="piu('barchetta')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_barchetta')">Nota</button>
+      <textarea id="nota_barchetta" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Burrata</span><div class="qtyBox"><button onclick="meno('burrata')">−</button><span id="burrata">0</span><button onclick="piu('burrata')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_burrata')">Nota</button>
+      <textarea id="nota_burrata" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Carpaccio</span><div class="qtyBox"><button onclick="meno('carpaccio')">−</button><span id="carpaccio">0</span><button onclick="piu('carpaccio')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_carpaccio')">Nota</button>
+      <textarea id="nota_carpaccio" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Lasaña</span><div class="qtyBox"><button onclick="meno('lasana')">−</button><span id="lasana">0</span><button onclick="piu('lasana')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_lasana')">Nota</button>
+      <textarea id="nota_lasana" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Provolone</span><div class="qtyBox"><button onclick="meno('provolone')">−</button><span id="provolone">0</span><button onclick="piu('provolone')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_provolone')">Nota</button>
+      <textarea id="nota_provolone" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Olive Verdi</span><div class="qtyBox"><button onclick="meno('oliveverdi')">−</button><span id="oliveverdi">0</span><button onclick="piu('oliveverdi')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_oliveverdi')">Nota</button>
+      <textarea id="nota_oliveverdi" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Tomino</span><div class="qtyBox"><button onclick="meno('tomino')">−</button><span id="tomino">0</span><button onclick="piu('tomino')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_tomino')">Nota</button>
+      <textarea id="nota_tomino" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Tortilla</span><div class="qtyBox"><button onclick="meno('tortilla')">−</button><span id="tortilla">0</span><button onclick="piu('tortilla')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_tortilla')">Nota</button>
+      <textarea id="nota_tortilla" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+    </div>
+  </div>
+
+  <!-- ===== PIZZA ===== -->
+  <div class="categoria">
+    <div class="titolo" onclick="toggleMenu('pizza')">Pizza ▼</div>
+    <div class="contenuto" id="pizza">
+
+      <div class="row"><span>Capricciosa</span><div class="qtyBox"><button onclick="meno('capricciosa')">−</button><span id="capricciosa">0</span><button onclick="piu('capricciosa')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_capricciosa')">Nota</button>
+      <textarea id="nota_capricciosa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cuatro Quesos</span><div class="qtyBox"><button onclick="meno('cuatroquesos')">−</button><span id="cuatroquesos">0</span><button onclick="piu('cuatroquesos')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cuatroquesos')">Nota</button>
+      <textarea id="nota_cuatroquesos" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Diavola</span><div class="qtyBox"><button onclick="meno('diavola')">−</button><span id="diavola">0</span><button onclick="piu('diavola')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_diavola')">Nota</button>
+      <textarea id="nota_diavola" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Marinara</span><div class="qtyBox"><button onclick="meno('marinara')">−</button><span id="marinara">0</span><button onclick="piu('marinara')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_marinara')">Nota</button>
+      <textarea id="nota_marinara" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Margherita</span><div class="qtyBox"><button onclick="meno('margherita')">−</button><span id="margherita">0</span><button onclick="piu('margherita')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_margherita')">Nota</button>
+      <textarea id="nota_margherita" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Prosciutto e Funghi</span><div class="qtyBox"><button onclick="meno('prosciuttofunghi')">−</button><span id="prosciuttofunghi">0</span><button onclick="piu('prosciuttofunghi')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_prosciuttofunghi')">Nota</button>
+      <textarea id="nota_prosciuttofunghi" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Pinsa Speciale (Pizza)</span><div class="qtyBox"><button onclick="meno('pinsaspeciale_pizza')">−</button><span id="pinsaspeciale_pizza">0</span><button onclick="piu('pinsaspeciale_pizza')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_pinsaspeciale_pizza')">Nota</button>
+      <textarea id="nota_pinsaspeciale_pizza" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+    </div>
+  </div>
+
+  <!-- ===== PINSA ===== -->
+  <div class="categoria">
+    <div class="titolo" onclick="toggleMenu('pinsaMenu')">Pinsa ▼</div>
+    <div class="contenuto" id="pinsaMenu">
+
+      <div class="row"><span>Anchoas</span><div class="qtyBox"><button onclick="meno('anchoas')">−</button><span id="anchoas">0</span><button onclick="piu('anchoas')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_anchoas')">Nota</button>
+      <textarea id="nota_anchoas" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Bacalao</span><div class="qtyBox"><button onclick="meno('bacalao')">−</button><span id="bacalao">0</span><button onclick="piu('bacalao')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_bacalao')">Nota</button>
+      <textarea id="nota_bacalao" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cabra</span><div class="qtyBox"><button onclick="meno('cabra')">−</button><span id="cabra">0</span><button onclick="piu('cabra')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cabra')">Nota</button>
+      <textarea id="nota_cabra" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Calabaza</span><div class="qtyBox"><button onclick="meno('calabaza')">−</button><span id="calabaza">0</span><button onclick="piu('calabaza')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_calabaza')">Nota</button>
+      <textarea id="nota_calabaza" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Ceps</span><div class="qtyBox"><button onclick="meno('ceps')">−</button><span id="ceps">0</span><button onclick="piu('ceps')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_ceps')">Nota</button>
+      <textarea id="nota_ceps" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Mortadella</span><div class="qtyBox"><button onclick="meno('mortadella')">−</button><span id="mortadella">0</span><button onclick="piu('mortadella')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_mortadella')">Nota</button>
+      <textarea id="nota_mortadella" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Pollo</span><div class="qtyBox"><button onclick="meno('pollo')">−</button><span id="pollo">0</span><button onclick="piu('pollo')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_pollo')">Nota</button>
+      <textarea id="nota_pollo" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Paletilla</span><div class="qtyBox"><button onclick="meno('paletilla')">−</button><span id="paletilla">0</span><button onclick="piu('paletilla')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_paletilla')">Nota</button>
+      <textarea id="nota_paletilla" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Pinsa Speciale</span><div class="qtyBox"><button onclick="meno('pinsaspeciale')">−</button><span id="pinsaspeciale">0</span><button onclick="piu('pinsaspeciale')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_pinsaspeciale')">Nota</button>
+      <textarea id="nota_pinsaspeciale" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Setas</span><div class="qtyBox"><button onclick="meno('setas')">−</button><span id="setas">0</span><button onclick="piu('setas')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_setas')">Nota</button>
+      <textarea id="nota_setas" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Tetilla</span><div class="qtyBox"><button onclick="meno('tetilla')">−</button><span id="tetilla">0</span><button onclick="piu('tetilla')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_tetilla')">Nota</button>
+      <textarea id="nota_tetilla" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Trufa</span><div class="qtyBox"><button onclick="meno('trufa')">−</button><span id="trufa">0</span><button onclick="piu('trufa')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_trufa')">Nota</button>
+      <textarea id="nota_trufa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Vegetariana</span><div class="qtyBox"><button onclick="meno('vegetariana')">−</button><span id="vegetariana">0</span><button onclick="piu('vegetariana')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_vegetariana')">Nota</button>
+      <textarea id="nota_vegetariana" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+    </div>
+  </div>
+
+  <!-- ===== POSTRES ===== -->
+  <div class="categoria">
+    <div class="titolo" onclick="toggleMenu('postre')">Postres ▼</div>
+    <div class="contenuto" id="postre">
+
+      <div class="row"><span>Panna Cotta</span><div class="qtyBox"><button onclick="meno('pannacotta')">−</button><span id="pannacotta">0</span><button onclick="piu('pannacotta')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_pannacotta')">Nota</button>
+      <textarea id="nota_pannacotta" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Pinsa Nutella</span><div class="qtyBox"><button onclick="meno('pinsanutella')">−</button><span id="pinsanutella">0</span><button onclick="piu('pinsanutella')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_pinsanutella')">Nota</button>
+      <textarea id="nota_pinsanutella" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Pinsa Siciliana</span><div class="qtyBox"><button onclick="meno('pinsasiciliana')">−</button><span id="pinsasiciliana">0</span><button onclick="piu('pinsasiciliana')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_pinsasiciliana')">Nota</button>
+      <textarea id="nota_pinsasiciliana" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Tarta de Queso</span><div class="qtyBox"><button onclick="meno('tartadequeso')">−</button><span id="tartadequeso">0</span><button onclick="piu('tartadequeso')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_tartadequeso')">Nota</button>
+      <textarea id="nota_tartadequeso" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Tiramisù</span><div class="qtyBox"><button onclick="meno('tiramisu')">−</button><span id="tiramisu">0</span><button onclick="piu('tiramisu')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_tiramisu')">Nota</button>
+      <textarea id="nota_tiramisu" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+    </div>
+  </div>
+
+  <!-- ===== BEBIDAS ===== -->
+  <div class="categoria">
+    <div class="titolo" onclick="toggleMenu('bebidas')">Bebidas ▼</div>
+    <div class="contenuto" id="bebidas">
+
+      <div class="row"><span>Agua con gas</span><div class="qtyBox"><button onclick="meno('aguacongas')">−</button><span id="aguacongas">0</span><button onclick="piu('aguacongas')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_aguacongas')">Nota</button>
+      <textarea id="nota_aguacongas" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Agua grande</span><div class="qtyBox"><button onclick="meno('aguagrande')">−</button><span id="aguagrande">0</span><button onclick="piu('aguagrande')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_aguagrande')">Nota</button>
+      <textarea id="nota_aguagrande" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Agua pequeña</span><div class="qtyBox"><button onclick="meno('aguapeq')">−</button><span id="aguapeq">0</span><button onclick="piu('aguapeq')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_aguapeq')">Nota</button>
+      <textarea id="nota_aguapeq" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Alhambra Roja</span><div class="qtyBox"><button onclick="meno('alhambraroja')">−</button><span id="alhambraroja">0</span><button onclick="piu('alhambraroja')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_alhambraroja')">Nota</button>
+      <textarea id="nota_alhambraroja" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Aperol Spritz</span><div class="qtyBox"><button onclick="meno('aperolspritz')">−</button><span id="aperolspritz">0</span><button onclick="piu('aperolspritz')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_aperolspritz')">Nota</button>
+      <textarea id="nota_aperolspritz" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Aquarius</span><div class="qtyBox"><button onclick="meno('aquarius')">−</button><span id="aquarius">0</span><button onclick="piu('aquarius')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_aquarius')">Nota</button>
+      <textarea id="nota_aquarius" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Campari Spritz</span><div class="qtyBox"><button onclick="meno('camparispritz')">−</button><span id="camparispritz">0</span><button onclick="piu('camparispritz')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_camparispritz')">Nota</button>
+      <textarea id="nota_camparispritz" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Campari</span><div class="qtyBox"><button onclick="meno('campari')">−</button><span id="campari">0</span><button onclick="piu('campari')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_campari')">Nota</button>
+      <textarea id="nota_campari" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cafè Solo</span><div class="qtyBox"><button onclick="meno('cafesolo')">−</button><span id="cafesolo">0</span><button onclick="piu('cafesolo')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cafesolo')">Nota</button>
+      <textarea id="nota_cafesolo" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cafè Solo Descafeinado</span><div class="qtyBox"><button onclick="meno('cafesolodec')">−</button><span id="cafesolodec">0</span><button onclick="piu('cafesolodec')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cafesolodec')">Nota</button>
+      <textarea id="nota_cafesolodec" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cafè con Leche</span><div class="qtyBox"><button onclick="meno('cafeleche')">−</button><span id="cafeleche">0</span><button onclick="piu('cafeleche')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cafeleche')">Nota</button>
+      <textarea id="nota_cafeleche" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cafè con Leche Des.</span><div class="qtyBox"><button onclick="meno('cafelechedec')">−</button><span id="cafelechedec">0</span><button onclick="piu('cafelechedec')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cafelechedec')">Nota</button>
+      <textarea id="nota_cafelechedec" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cortado</span><div class="qtyBox"><button onclick="meno('cortado')">−</button><span id="cortado">0</span><button onclick="piu('cortado')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cortado')">Nota</button>
+      <textarea id="nota_cortado" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cortado Descafeinado</span><div class="qtyBox"><button onclick="meno('cortadodec')">−</button><span id="cortadodec">0</span><button onclick="piu('cortadodec')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cortadodec')">Nota</button>
+      <textarea id="nota_cortadodec" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Carajillo</span><div class="qtyBox"><button onclick="meno('carajillo')">−</button><span id="carajillo">0</span><button onclick="piu('carajillo')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_carajillo')">Nota</button>
+      <textarea id="nota_carajillo" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cava Botella</span><div class="qtyBox"><button onclick="meno('cavabotella')">−</button><span id="cavabotella">0</span><button onclick="piu('cavabotella')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cavabotella')">Nota</button>
+      <textarea id="nota_cavabotella" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cava Copa</span><div class="qtyBox"><button onclick="meno('cavacopa')">−</button><span id="cavacopa">0</span><button onclick="piu('cavacopa')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cavacopa')">Nota</button>
+      <textarea id="nota_cavacopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cerasauolo</span><div class="qtyBox"><button onclick="meno('cerasauolo')">−</button><span id="cerasauolo">0</span><button onclick="piu('cerasauolo')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cerasauolo')">Nota</button>
+      <textarea id="nota_cerasauolo" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Clara</span><div class="qtyBox"><button onclick="meno('clara')">−</button><span id="clara">0</span><button onclick="piu('clara')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_clara')">Nota</button>
+      <textarea id="nota_clara" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Caña Copa</span><div class="qtyBox"><button onclick="meno('canacopa')">−</button><span id="canacopa">0</span><button onclick="piu('canacopa')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_canacopa')">Nota</button>
+      <textarea id="nota_canacopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Caña Pequeña</span><div class="qtyBox"><button onclick="meno('canapeq')">−</button><span id="canapeq">0</span><button onclick="piu('canapeq')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_canapeq')">Nota</button>
+      <textarea id="nota_canapeq" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Mediana 1925</span><div class="qtyBox"><button onclick="meno('mediana1925')">−</button><span id="mediana1925">0</span><button onclick="piu('mediana1925')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_mediana1925')">Nota</button>
+      <textarea id="nota_mediana1925" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Mediana TOST. 0 Alc.</span><div class="qtyBox"><button onclick="meno('medianatost')">−</button><span id="medianatost">0</span><button onclick="piu('medianatost')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_medianatost')">Nota</button>
+      <textarea id="nota_medianatost" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Mediana 0 Alc.</span><div class="qtyBox"><button onclick="meno('mediana0')">−</button><span id="mediana0">0</span><button onclick="piu('mediana0')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_mediana0')">Nota</button>
+      <textarea id="nota_mediana0" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cocacola</span><div class="qtyBox"><button onclick="meno('cocacola')">−</button><span id="cocacola">0</span><button onclick="piu('cocacola')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cocacola')">Nota</button>
+      <textarea id="nota_cocacola" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Cocacola 0</span><div class="qtyBox"><button onclick="meno('cocacola0')">−</button><span id="cocacola0">0</span><button onclick="piu('cocacola0')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_cocacola0')">Nota</button>
+      <textarea id="nota_cocacola0" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Fanta</span><div class="qtyBox"><button onclick="meno('fanta')">−</button><span id="fanta">0</span><button onclick="piu('fanta')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_fanta')">Nota</button>
+      <textarea id="nota_fanta" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Garnatxa Blanca Copa</span><div class="qtyBox"><button onclick="meno('garnatxablancacopa')">−</button><span id="garnatxablancacopa">0</span><button onclick="piu('garnatxablancacopa')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_garnatxablancacopa')">Nota</button>
+      <textarea id="nota_garnatxablancacopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Garnatxa Blanca Bott.</span><div class="qtyBox"><button onclick="meno('garnatxablancabott')">−</button><span id="garnatxablancabott">0</span><button onclick="piu('garnatxablancabott')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_garnatxablancabott')">Nota</button>
+      <textarea id="nota_garnatxablancabott" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Garnatxa Tinta Copa</span><div class="qtyBox"><button onclick="meno('garnatxatintacopa')">−</button><span id="garnatxatintacopa">0</span><button onclick="piu('garnatxatintacopa')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_garnatxatintacopa')">Nota</button>
+      <textarea id="nota_garnatxatintacopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Garnatxa Tinta Bott.</span><div class="qtyBox"><button onclick="meno('garnatxatintabott')">−</button><span id="garnatxatintabott">0</span><button onclick="piu('garnatxatintabott')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_garnatxatintabott')">Nota</button>
+      <textarea id="nota_garnatxatintabott" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Gin Hendrix</span><div class="qtyBox"><button onclick="meno('ginhendrix')">−</button><span id="ginhendrix">0</span><button onclick="piu('ginhendrix')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_ginhendrix')">Nota</button>
+      <textarea id="nota_ginhendrix" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Gin Mare</span><div class="qtyBox"><button onclick="meno('ginmare')">−</button><span id="ginmare">0</span><button onclick="piu('ginmare')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_ginmare')">Nota</button>
+      <textarea id="nota_ginmare" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Lambrusco Rosè Copa</span><div class="qtyBox"><button onclick="meno('lambruscorosecopa')">−</button><span id="lambruscorosecopa">0</span><button onclick="piu('lambruscorosecopa')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_lambruscorosecopa')">Nota</button>
+      <textarea id="nota_lambruscorosecopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Lambrusco Rosè Bott.</span><div class="qtyBox"><button onclick="meno('lambruscorosebott')">−</button><span id="lambruscorosebott">0</span><button onclick="piu('lambruscorosebott')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_lambruscorosebott')">Nota</button>
+      <textarea id="nota_lambruscorosebott" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Lambrusco Otello</span><div class="qtyBox"><button onclick="meno('lambruscoOtello')">−</button><span id="lambruscoOtello">0</span><button onclick="piu('lambruscoOtello')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_lambruscoOtello')">Nota</button>
+      <textarea id="nota_lambruscoOtello" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Magnum Trebbiano</span><div class="qtyBox"><button onclick="meno('magnumtrebbiano')">−</button><span id="magnumtrebbiano">0</span><button onclick="piu('magnumtrebbiano')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_magnumtrebbiano')">Nota</button>
+      <textarea id="nota_magnumtrebbiano" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Negroni</span><div class="qtyBox"><button onclick="meno('negroni')">−</button><span id="negroni">0</span><button onclick="piu('negroni')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_negroni')">Nota</button>
+      <textarea id="nota_negroni" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Nero D'Avola Copa</span><div class="qtyBox"><button onclick="meno('nerodavolacopa')">−</button><span id="nerodavolacopa">0</span><button onclick="piu('nerodavolacopa')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_nerodavolacopa')">Nota</button>
+      <textarea id="nota_nerodavolacopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Nero D'Avola Bott.</span><div class="qtyBox"><button onclick="meno('nerodavolabott')">−</button><span id="nerodavolabott">0</span><button onclick="piu('nerodavolabott')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_nerodavolabott')">Nota</button>
+      <textarea id="nota_nerodavolabott" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Nestea</span><div class="qtyBox"><button onclick="meno('nestea')">−</button><span id="nestea">0</span><button onclick="piu('nestea')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_nestea')">Nota</button>
+      <textarea id="nota_nestea" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Pinot Grigio Copa</span><div class="qtyBox"><button onclick="meno('pinotgrigiocopa')">−</button><span id="pinotgrigiocopa">0</span><button onclick="piu('pinotgrigiocopa')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_pinotgrigiocopa')">Nota</button>
+      <textarea id="nota_pinotgrigiocopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Pinot Grigio Bott.</span><div class="qtyBox"><button onclick="meno('pinotgrigiobott')">−</button><span id="pinotgrigiobott">0</span><button onclick="piu('pinotgrigiobott')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_pinotgrigiobott')">Nota</button>
+      <textarea id="nota_pinotgrigiobott" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+      <div class="row"><span>Trebbiano Copa</span><div class="qtyBox"><button onclick="meno('trebbianocopa')">−</button><span id="trebbianocopa">0</span><button onclick="piu('trebbianocopa')">+</button></div></div>
+      <button class="notaBtn" onclick="toggleNota('nota_trebbianocopa')">Nota</button>
+      <textarea id="nota_trebbianocopa" class="notaBox" placeholder="Scrivi nota..." style="display:none;"></textarea>
+
+    </div>
+  </div>
+
+  <!-- Uscita Piatti -->
+  <label style="margin-top:20px;display:block;"><strong>Uscita Piatti</strong></label>
+  <select id="uscitaPiatti">
+    <option value="">Nessuna indicazione</option>
+    <option value="Entrantes y Pizza Juntos">Entrantes y Pizza Juntos</option>
+    <option value="Primero Entrante y Despues Pizza">Primero Entrante y Despues Pizza</option>
+  </select>
+
+  <button onclick="inviaOrdine()">Invia Ordine</button>
+
+</div>
+
+<h2>Ordini inviati</h2>
+<div id="listaOrdini"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDUulaak7o02S9DedxWjBsi0rXN7wg1_-c",
+  authDomain: "comanderistorante.firebaseapp.com",
+  databaseURL: "https://comanderistorante-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "comanderistorante",
+  storageBucket: "comanderistorante.firebasestorage.app",
+  messagingSenderId: "231947553618",
+  appId: "1:231947553618:web:8fbb14e28bc6d36cd5488b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+window.db = db;
+window.ref = ref;
+window.push = push;
+</script>
+
+<script src="app.js"></script>
+</body>
+</html>

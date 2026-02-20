@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ordini Completati</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a href="index.html" style="float:right;font-size:22px;">⬅ Torna</a>
+<h1>Ordini Completati</h1>
+<div id="listaOrdini"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyDUulaak7o02S9DedxWjBsi0rXN7wg1_-c",
+  authDomain:"comanderistorante.firebaseapp.com",
+  databaseURL:"https://comanderistorante-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:"comanderistorante",
+  storageBucket:"comanderistorante.firebasestorage.app",
+  messagingSenderId:"231947553618",
+  appId:"1:231947553618:web:8fbb14e28bc6d36cd5488b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const lista = document.getElementById("listaOrdini");
+
+onValue(ref(db,"ordini"), snapshot => {
+  lista.innerHTML = "";
+  snapshot.forEach(child => {
+    const o = child.val();
+    if(!o.completato) return;
+
+    const div = document.createElement("div");
+    div.className = "ordine";
+    div.innerHTML = `
+      <strong>Tavolo ${o.tavolo}</strong><br>
+      Ordine: ${o.ora}<br>
+      Completato: ${o.oraCompletato}<br>
+      ${o.items.map(i =>
+        `${i.qty} x ${i.nome}${i.nota ? `<br><small>→ ${i.nota}</small>` : ""}`
+      ).join("<br>")}
+    `;
+    lista.prepend(div);
+  });
+});
+</script>
+</body>
+</html>

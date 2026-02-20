@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ordini Bar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a href="index.html" style="float:right;font-size:22px;">⬅ Torna</a>
+<h2>ORDINI BAR</h2>
+<div id="listaOrdini"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDUulaak7o02S9DedxWjBsi0rXN7wg1_-c",
+  authDomain: "comanderistorante.firebaseapp.com",
+  databaseURL: "https://comanderistorante-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "comanderistorante",
+  storageBucket: "comanderistorante.firebasestorage.app",
+  messagingSenderId: "231947553618",
+  appId: "1:231947553618:web:8fbb14e28bc6d36cd5488b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const lista = document.getElementById("listaOrdini");
+
+onValue(ref(db,"ordini"), snapshot => {
+  lista.innerHTML = "";
+
+  snapshot.forEach(child => {
+    const id = child.key;
+    const ordine = child.val();
+
+    if(ordine.completato) return;
+    if(ordine.barCompleto) return;
+
+    const bevande = ordine.items.filter(item => item.reparto === "bar");
+    if(bevande.length === 0) return;
+
+    const div = document.createElement("div");
+    div.className = "ordine";
+
+    div.innerHTML = `
+      <strong>Tavolo ${ordine.tavolo}</strong> - ${ordine.ora}<br>
+      ${bevande.map(item => `
+        ${item.qty} x ${item.nome}
+        ${item.nota ? `<br><small>→ ${item.nota}</small>` : ""}
+      `).join("<br>")}
+      <br><br>
+      <button onclick="completaBar('${id}')">COMPLETATO</button>
+    `;
+
+    lista.prepend(div);
+  });
+});
+
+window.completaBar = function(id){
+  update(ref(db,"ordini/"+id),{ barCompleto: true })
+    .then(() => controllaCompletamento(id));
+};
+
+function controllaCompletamento(id){
+  onValue(ref(db,"ordini/"+id), snapshot => {
+    const o = snapshot.val();
+    const hasCucina   = o.items.some(i => i.reparto === "cucina");
+    const hasPizzeria = o.items.some(i => i.reparto === "pizzeria");
+    const hasBar      = o.items.some(i => i.reparto === "bar");
+    const cucinaOk    = !hasCucina   || o.cucinaCompleto;
+    const pizzeriaOk  = !hasPizzeria || o.pizzeriaCompleto;
+    const barOk       = !hasBar      || o.barCompleto;
+    if(cucinaOk && pizzeriaOk && barOk){
+      update(ref(db,"ordini/"+id),{ completato: true, oraCompletato: new Date().toLocaleTimeString() });
+    }
+  }, { onlyOnce: true });
+}
+</script>
+</body>
+</html>
