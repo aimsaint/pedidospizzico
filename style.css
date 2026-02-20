@@ -30,10 +30,11 @@ body {
 
 .navbar a {
   text-decoration: none;
-  font-weight: 1200;
-  font-size: 16px; /* Leggermente ridotto per evitare sovrapposizioni su schermi stretti */
+  font-weight: 900;
+  font-size: 18px; /* Leggermente ridotto per evitare sovrapposizioni su schermi stretti */
   color: #333;
   padding: 10px;
+  justify-content: text-align;
 }
 
 /* ===== CARD PRINCIPALE ===== */
