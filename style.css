@@ -19,22 +19,37 @@ body {
   margin: 0 auto;
 }
 
-/* ===== NAVBAR ===== */
+/* ===== NAVBAR OTTIMIZZATA ===== */
 .navbar ul {
   display: flex;
-  justify-content: space-around; /* Meglio distribuito su mobile */
+  justify-content: space-around; /* Distribuisce le voci equamente */
+  align-items: center;           /* Allinea il testo verticalmente al centro */
   list-style: none;
   padding: 0;
   margin: 0 0 20px 0;
+  background: white;             /* Opzionale: dà un fondo alla barra */
+  border-radius: 12px;           /* Arrotonda gli angoli */
+  height: 60px;                  /* Altezza fissa per un tocco più facile */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.navbar li {
+  flex: 1;                       /* Ogni voce occupa lo stesso spazio */
+  text-align: center;            /* Centra il testo orizzontalmente */
 }
 
 .navbar a {
   text-decoration: none;
-  font-weight: 900;
-  font-size: 18px; /* Leggermente ridotto per evitare sovrapposizioni su schermi stretti */
+  font-weight: 600;
+  font-size: 16px;
   color: #333;
-  padding: 10px;
-  justify-content: text-align;
+  display: block;                /* Rende cliccabile tutta l'area del LI */
+  padding: 10px 0;
+  transition: color 0.3s;
+}
+
+.navbar a:active {
+  color: #007AFF;                /* Feedback visivo quando si tocca col dito */
 }
 
 /* ===== CARD PRINCIPALE ===== */
